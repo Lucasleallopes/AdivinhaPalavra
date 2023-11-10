@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe a palavra</title>
+    <style>
+            body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.2em;
+            margin: 10px 0;
+            
+            
+        }
+		.frase {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        span.T {
+            color: green;
+        }
+
+        span.M {
+            color: yellow;
+        }
+
+        span.F {
+            color: red;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Adivinhe a palavra</h1>
+    <p th:text="${message}"></p>
+    <p>Digite uma palavra com 5 letras. T significa letra correta na posição certa, M significa letra correta mas posição errada, F significa letra errada.</p>
+
+    <p>Palavra: <span th:text="${palavra}"></span></p>
+
+    <p>Resultado:
+        <span th:each="result : ${results}">
+            <span th:style="${result == 'T' ? 'color: green;' : (result == 'M' ? 'color: yellow;' : 'color: red;')}" th:text="${result}" th:if="${result != 'F'}"></span>
+        </span>
+    </p>
+
+    <form method="post" th:action="@{/jogo}">
+        <input type="text" name="chute" required pattern="[a-zA-Z]{5}" title="Digite uma palavra com 5 letras."/>
+        <button type="submit" th:disabled="${attempts >= 5}">Enviar</button>
+    </form>
+    
+    <div class="frase">@Lucas L. Lopes</div>
+
+</body>
+</html>
